@@ -22,13 +22,25 @@
   </div>
 
   <div class="my-5">
-    <%= form.label :shop_owner_id %>
-    <%= form.text_field :shop_owner_id, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
-  </div>
-
-  <div class="my-5">
     <%= form.label :company %>
     <%= form.text_field :company, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div data-controller="nested-form">
+
+
+    <template data-nested-form-target="template">
+      <%= form.fields_for :items, OrderItem.new, child_index: 'NEW_RECORD' do |item| %>
+        <%= render "order_item_fields", form: item %>
+      <% end %>
+    </template>
+
+    <%= form.fields_for :items do |task| %>
+      <%= render "order_item_fields", form: task %>
+    <% end %>
+    <div class="mb-3 flex justify-end items-center" data-nested-form-target="links">
+      <%= link_to "Add Item", "#", class: "inline-block bg-white border border-primary text-primary rounded-lg py-2 px-4 hover:bg-primary hover:text-white transition duration-300 ease-in-out", data: { action: "click->nested-form#add_association" } %>
+    </div>
   </div>
 
   <div class="inline">
