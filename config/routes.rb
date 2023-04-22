@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'dashboard' => 'dashboard#index'
+  get 'dashboard/generate_csv'
   get 'order_items/index'
   get 'order_items/show'
   get 'order_items/new'
