@@ -1,0 +1,32 @@
+<%= turbo_frame_tag "orders" do %>
+  <div class="table-responsive my-5">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order. No.</th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Amount</th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Advance</th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Balance</th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
+        </tr>
+      </thead>
+
+      <tbody class="bg-white divide-y divide-gray-200">
+        <% orders.each_with_index do |order, index| %>
+          <%= content_tag :tr, id: dom_id(order), class: dom_class(order) do %>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <%= link_to order.id, order_path(order), class: "text-indigo-600 hover:text-indigo-900", target: "_top" %>
+            </td>
+              <td class="px-6 py-4 whitespace-nowrap"><%= order.phone_number %></td>
+              <td class="px-6 py-4 whitespace-nowrap"><%= order.total_item_amount %></td>
+              <td class="px-6 py-4 whitespace-nowrap"><%= order.total_receipt_amount %></td>
+              <td class="px-6 py-4 whitespace-nowrap"><%= order.balance %></td>
+              <td class="px-6 py-4 whitespace-nowrap"><%= order.created_at.in_time_zone("Mumbai") %></td>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+    <%= will_paginate orders, class: "my-4" %>
+  </div>
+<% end %>

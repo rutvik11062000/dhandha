@@ -1,0 +1,80 @@
+
+<div class="w-full">
+  <div class="flex justify-between items-center">
+    <h1 class="font-bold text-4xl">Receipts</h1>
+  </div>
+
+  <table class="min-w-full divide-y divide-gray-200">
+    <thead class="bg-gray-50">
+      <tr>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item. No.</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item Amount</th>
+      </tr>
+    </thead>
+
+    <tbody class="bg-white divide-y divide-gray-200">
+      <% @order.order_items.each_with_index do |item, index| %>
+        <%= content_tag :tr, id: dom_id(item), class: dom_class(item) do %>
+            <td class="px-6 py-4 whitespace-nowrap"><%= "#{index+1}" %></td>
+            <td class="px-6 py-4 whitespace-nowrap"><%= Product.find(item.product_id).title %></td>
+            <td class="px-6 py-4 whitespace-nowrap"><%= item.amount %></td>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+
+  <% if @order.receipts.size > 0 && @order.receipts.first.persisted? %>
+    <div class="flex justify-between items-center">
+      <h1 class="font-bold text-4xl">Old Receipts</h1>
+    </div>
+
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Receipt. No.</th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
+        </tr>
+      </thead>
+
+      <tbody class="bg-white divide-y divide-gray-200">
+        <% @order.receipts.each_with_index do |item, index| %>
+          <%= content_tag :tr, id: dom_id(item), class: dom_class(item) do %>
+              <td class="px-6 py-4 whitespace-nowrap"><%= "#{index+1}" %></td>
+              <td class="px-6 py-4 whitespace-nowrap"><%= item.amount %></td>
+              <td class="px-6 py-4 whitespace-nowrap"><%= item.created_at %></td>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+
+<hr class="border-b border-gray-300 my-4">
+
+<div class="grid grid-cols-1 gap-y-2 gap-x-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+  <div class="col-span-1 font-bold">Total Payable:</div>
+  <div class="col-span-1"><h3>Rs. <span class="font-bold"><%= @order.balance %></span></h3></div>
+
+  <%= form_for @receipt, url: order_receipts_path(@order) do |f| %>
+    <div class="form-group col-span-2 sm:col-span-1 py-5">
+      <%= f.label :payment_method, class: 'font-bold' %>
+      <%= f.select :payment_method, [["Cash", "Cash"], ["UPI", "UPI"], ["Online", "Online"]], class: 'form-select mt-2' %>
+    </div>
+
+    <div class="form-group col-span-2 sm:col-span-1 py-5">
+      <%= f.label :amount, class: 'font-bold' %>
+      <%= f.number_field :amount, class: 'form-input mt-2 mb-2 w-48' %>
+    </div>
+
+    <div class="form-group col-span-2">
+      <%= f.submit 'Create Receipt', class: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' %>
+    </div>
+  <% end %>
+</div>
+
+</div>
+
+  
+  
+

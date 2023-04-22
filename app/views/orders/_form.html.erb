@@ -30,12 +30,12 @@
 
 
     <template data-nested-form-target="template">
-      <%= form.fields_for :items, OrderItem.new, child_index: 'NEW_RECORD' do |item| %>
+      <%= form.fields_for :order_items, OrderItem.new, child_index: 'NEW_RECORD' do |item| %>
         <%= render "order_item_fields", form: item %>
       <% end %>
     </template>
 
-    <%= form.fields_for :items do |task| %>
+    <%= form.fields_for :order_items do |task| %>
       <%= render "order_item_fields", form: task %>
     <% end %>
     <div class="mb-3 flex justify-end items-center" data-nested-form-target="links">

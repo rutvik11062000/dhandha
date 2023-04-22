@@ -1,14 +1,19 @@
 <div class="w-full">
-  <% if notice.present? %>
-    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
-  <% end %>
 
   <div class="flex justify-between items-center">
     <h1 class="font-bold text-4xl">Orders</h1>
     <%= link_to 'New order', new_order_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
   </div>
 
-  <div id="orders" class="min-w-full">
-    <%= render @orders %>
+<%= form_with(url: orders_path, method: "GET", data: { turbo_frame: "orders" }) do |form| %>
+  <div class="flex items-center border-b border-b-2 border-gray-500 py-2">
+    <%= text_field_tag :search, params[:search], class: 'appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none', placeholder: 'Search by customer phone/name or Order ID' %>
+    <button class="flex-shrink-0 bg-indigo-500 hover:bg-indigo-700 border-indigo-500 hover:border-indigo-700 text-sm border-4 text-white py-1 px-2 rounded" type="submit">
+      Search
+    </button>
   </div>
+<% end %>
+
+
+  <%= render "orders", orders: @orders %>
 </div>

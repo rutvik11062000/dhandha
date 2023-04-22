@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_16_155255) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_22_104349) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -39,6 +39,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_16_155255) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "bills", force: :cascade do |t|
+    t.integer "order_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_bills_on_order_id"
+  end
+
   create_table "order_items", force: :cascade do |t|
     t.integer "order_id", null: false
     t.integer "product_id"
@@ -56,7 +63,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_16_155255) do
     t.string "company"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["phone_number"], name: "index_orders_on_phone_number", unique: true
+    t.index ["phone_number"], name: "index_orders_on_phone_number"
     t.index ["shop_owner_id"], name: "index_orders_on_shop_owner_id"
   end
 
@@ -65,6 +72,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_16_155255) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["title"], name: "index_products_on_title", unique: true
+  end
+
+  create_table "receipts", force: :cascade do |t|
+    t.integer "order_id", null: false
+    t.string "payment_method"
+    t.integer "amount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_receipts_on_order_id"
   end
 
   create_table "shop_owners", force: :cascade do |t|
@@ -81,6 +97,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_16_155255) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "bills", "orders"
   add_foreign_key "order_items", "orders"
   add_foreign_key "orders", "shop_owners"
+  add_foreign_key "receipts", "orders"
 end

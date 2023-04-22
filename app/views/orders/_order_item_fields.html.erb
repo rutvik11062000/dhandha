@@ -1,16 +1,16 @@
-  <%= form.fields_for :order_items do |oi_form| %>
   <div class="flex items-center space-x-4 mb-4">
     <p class="w-1/2">
-      <%= oi_form.label :product_id, "Product" %>
-      <%= oi_form.collection_select :product_id, Product.all, :id, :title, {}, { class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" } %>
+      <%= form.label :product_id, "Product" %>
+      <%= form.collection_select :product_id, Product.all, :id, :title, {}, { class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" } %>
     </p>
     <p class="w-1/6">
-      <%= oi_form.label :qty, "Qty" %>
-      <%= oi_form.number_field :qty, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-center" %>
+      <%= form.label :qty, "Qty" %>
+      <%= form.number_field :qty, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-center" %>
     </p>
     <p class="w-1/6">
-      <%= oi_form.label :amount, "Amount" %>
-      <%= oi_form.number_field :amount, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-center" %>
+      <%= form.label :amount, "Amount" %>
+      <%= form.number_field :amount, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-center" %>
     </p>
+    <small><%= link_to "Remove", "#", data: { action: "click->nested-form#remove_association" } %></small>
+    <%= form.hidden_field :_destroy %>
   </div>
-<% end %>

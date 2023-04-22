@@ -1,0 +1,22 @@
+<div id="<%= dom_id receipt %>">
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Order:</strong>
+    <%= receipt.order_id %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Payment method:</strong>
+    <%= receipt.payment_method %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Amount:</strong>
+    <%= receipt.amount %>
+  </p>
+
+  <% if action_name != "show" %>
+    <%= link_to "Show this receipt", receipt, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to 'Edit this receipt', edit_receipt_path(receipt), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
+    <hr class="mt-6">
+  <% end %>
+</div>

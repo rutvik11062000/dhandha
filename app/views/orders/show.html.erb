@@ -1,15 +1,60 @@
-<div class="mx-auto md:w-2/3 w-full flex">
+
+<div class="table-responsive">
+  <h1 class="font-bold text-4xl py-5">Receipts</h1>
+<hr class="border-b border-gray-300 my-4">
+
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sr. No.</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">PDF</th>
+      </tr>
+    </thead>
+
+    <tbody class="bg-white divide-y divide-gray-200">
+      <% @order.receipts.each_with_index do |receipt, index| %>
+        <%= content_tag :tr, id: dom_id(receipt), class: dom_class(receipt) do %>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <%= "#{index+1}" %>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap"><%= receipt.created_at.in_time_zone("Mumbai") %></td>
+          <td class="px-6 py-4 whitespace-nowrap"><%= receipt.payment_method %></td>
+          <td class="px-6 py-4 whitespace-nowrap"><%= receipt.amount %></td>
+          <td class="px-6 py-4 whitespace-nowrap"><%= link_to "PDF", order_receipt_path(order_id: @order.id, id: receipt.id, format: :pdf), class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium my-5" %></td>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+<hr class="border-b border-gray-300 my-4">
+  
+  <div class="grid grid-cols-1 gap-y-2 gap-x-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+    <div class="col-span-1 font-bold">Total Payed:</div>
+    <div class="col-span-1"><h3>Rs. <span class="font-bold"><%= @order.total_receipt_amount %></span></h3></div>
+  </div>
+  <div class="grid grid-cols-1 gap-y-2 gap-x-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 my-5">
+    <div class="col-span-1 font-bold">Total Payable:</div>
+    <div class="col-span-1"><h3>Rs. <span class="font-bold"><%= @order.balance %></span></h3></div>
+  <%= link_to "Complete Payment", new_order_receipt_path(@order), class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50 disabled:cursor-not-allowed" if @order.balance > 0 %>
+  </div>
+  <div class="mx-auto md:w-2/3 w-full flex">
   <div class="mx-auto">
-    <% if notice.present? %>
-      <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
-    <% end %>
+<hr class="border-b border-gray-300 my-4">
 
     <%= render @order %>
+<hr class="border-b border-gray-300 my-4">
 
     <%= link_to 'Edit this order', edit_order_path(@order), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
     <div class="inline-block ml-2">
-      <%= button_to 'Destroy this order', order_path(@order), method: :delete, class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
+      <%= button_to 'Destroy this order', order_path(@order), method: :delete,  data: { turbo_confirm: "Are you sure?" }, class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
     </div>
+
     <%= link_to 'Back to orders', orders_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to "Challan", show_invoice_order_path(@order, format: :pdf), class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium my-5" %>
+    <%= render "bill", order: @order %>
   </div>
 </div>
+</div>
+
