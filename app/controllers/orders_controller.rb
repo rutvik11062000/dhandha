@@ -10,6 +10,8 @@ class OrdersController < ApplicationController
       query = params[:search].to_s
       if query.match?(/\A[+-]?\d+?(\.\d+)?\Z/) and query.length == 10
         @orders = Order.where(phone_number: query).paginate(page: params[:page], per_page: 10)
+      elsif query.match?(/\A[+-]?\d+?(\.\d+)?\Z/) and query.length < 10
+        @orders = Order.where(id: query.to_i).paginate(page: params[:page], per_page: 10)
       else
         @orders = Order.where(company: query).paginate(page: params[:page], per_page: 10)
       end
