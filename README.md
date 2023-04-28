@@ -22,3 +22,6 @@ To install and run the Dhandha project, follow the below steps:
 
 ## Usage
 Once the application is running, navigate to http://localhost:3000/ in your web browser to access the application.
+
+https://user-images.githubusercontent.com/47498552/235239270-c5f67efe-f184-4b8d-a0c7-e889684fee67.mov
+
